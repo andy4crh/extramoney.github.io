@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>同步-自旋锁 | 樵子的博客</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="同步-自旋锁 | 樵子的博客">
+  <title>在对象之间搬移特性 | 樵子的博客</title>
+  <meta name="keywords" content=" 重构 ">
+  <meta name="description" content="在对象之间搬移特性 | 樵子的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="几乎所有时刻，问题都源于Long Method(过长函数)  Extract Method(提炼函数)void printOwing(double amount) &amp;#123;         printBanner();                  &#x2F;&#x2F;print details         System.out.println(&quot;....&quot;);">
 <meta property="og:type" content="article">
@@ -264,13 +264,11 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-同步-自旋锁" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-在对象之间搬移特性" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">同步-自旋锁</h1>
+        <h1 class="article-title">在对象之间搬移特性</h1>
     
     <div class="article-meta">
-        
-        <span class="top"><a>置顶</a></span>
         
         
         
@@ -278,17 +276,22 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="操作系统">操作系统</a> > 
-            
-            <a  data-rel="操作系统&lt;---&gt;同步">同步</a>
+            <a  data-rel="重构">重构</a>
             
         </span>
         
         
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color3">重构</a>
+            
+        </span>
+        
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2022-11-24 19:41:14'>2022-11-24 14:38</time>
+            发布时间 : <time class="date" title='最后更新: 2023-01-23 11:21:28'>2023-01-23 09:14</time>
         
     </div>
     <div class="article-meta">
@@ -321,7 +324,7 @@
     
     <div class="toc-ref">
     
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Move-Method%EF%BC%88%E6%90%AC%E7%A7%BB%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">Move Method（搬移函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Move-Field%EF%BC%88%E6%90%AC%E7%A7%BB%E5%AD%97%E6%AE%B5%EF%BC%89"><span class="toc-text">Move Field（搬移字段）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-1"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Extract-Class%EF%BC%88%E6%8F%90%E7%82%BC%E7%B1%BB%EF%BC%89"><span class="toc-text">Extract Class（提炼类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-2"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Inline-Class-%EF%BC%88%E5%B0%86%E7%B1%BB%E5%86%85%E8%81%94%E5%8C%96%EF%BC%89"><span class="toc-text">Inline Class （将类内联化）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-3"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hide-Delegate-%EF%BC%88%E9%9A%90%E8%97%8F%E2%80%9C%E5%A7%94%E6%89%98%E5%85%B3%E7%B3%BB%E2%80%9D%EF%BC%89"><span class="toc-text">Hide Delegate （隐藏“委托关系”）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-4"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Remove-Middle-Man-%EF%BC%88%E7%A7%BB%E9%99%A4%E4%B8%AD%E9%97%B4%E4%BA%BA%EF%BC%89"><span class="toc-text">Remove Middle Man （移除中间人）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-5"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduce-Foreign-Method%EF%BC%88%E5%BC%95%E5%85%A5%E5%A4%96%E5%8A%A0%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">Introduce Foreign Method（引入外加函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-6"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduce-Local-Extension-%EF%BC%88%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0%E6%89%A9%E5%B1%95%EF%BC%89"><span class="toc-text">Introduce Local Extension （引入本地扩展）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-7"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F-1"><span class="toc-text">注意</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -337,7 +340,110 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <blockquote>
+<p>在对象的设计过程中，“决定把责任放在哪儿” 即使不是最重要的事，也是最重要的事之一。</p>
+</blockquote>
+<h1 id="Move-Method（搬移函数）"><a href="#Move-Method（搬移函数）" class="headerlink" title="Move Method（搬移函数）"></a>Move Method（搬移函数）</h1><blockquote>
+<p>在该函数最常引用的类中建立一个有着类似行为的新函数。将旧函数变成一个单纯的委托函数，或是将旧函数完全移除。</p>
+</blockquote>
+<p><img src="/../img/moveMethod1.png"></p>
+<p><img src="/../img/moveMethod2.png"></p>
+<h2 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>如果一个类有太多行为，或如果一个类与另一个类有太多合作而形成高度耦合，就搬移函数。</li>
+<li>使用另一个对象的次数比使用自己所驻对象的次数还多。</li>
+</ul>
+<h1 id="Move-Field（搬移字段）"><a href="#Move-Field（搬移字段）" class="headerlink" title="Move Field（搬移字段）"></a>Move Field（搬移字段）</h1><blockquote>
+<p>在目标类新建一个字段，修改源字段的所有用户，令它们改用新字段。</p>
+</blockquote>
+<p><img src="/../img/moveField1.png"></p>
+<p><img src="/../img/moveField2.png"></p>
+<h2 id="动机-1"><a href="#动机-1" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>对于一个字段，在其所驻类之外的另一个类中有更多函数使用了它，就会考虑搬移这个字段。</li>
+</ul>
+<h1 id="Extract-Class（提炼类）"><a href="#Extract-Class（提炼类）" class="headerlink" title="Extract Class（提炼类）"></a>Extract Class（提炼类）</h1><blockquote>
+<p>建立一个新类，将相关的字段和函数从旧类搬移到新类。</p>
+</blockquote>
+<p><img src="/../img/extractClass1.png"></p>
+<p><img src="/../img/extractClass2.png"></p>
+<h2 id="动机-2"><a href="#动机-2" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>一个类应该是一个清楚的抽象，处理一些明确的责任</li>
+<li>类含有大量函数和数据</li>
+<li>开发后期出现的信号是类的子类化方式</li>
+</ul>
+<h1 id="Inline-Class-（将类内联化）"><a href="#Inline-Class-（将类内联化）" class="headerlink" title="Inline Class （将类内联化）"></a>Inline Class （将类内联化）</h1><blockquote>
+<p>将这个类的所有特性搬移到另一个类中，然后移除原类</p>
+</blockquote>
+<ol>
+<li></li>
+</ol>
+<p><img src="/../img/extractClass2.png"></p>
+<ol start="2">
+<li></li>
+</ol>
+<p><img src="/../img/extractClass1.png"></p>
+<h2 id="动机-3"><a href="#动机-3" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>如果一个类不再承担足够责任、不再有单独存在的理由</li>
+</ul>
+<h1 id="Hide-Delegate-（隐藏“委托关系”）"><a href="#Hide-Delegate-（隐藏“委托关系”）" class="headerlink" title="Hide Delegate （隐藏“委托关系”）"></a>Hide Delegate （隐藏“委托关系”）</h1><blockquote>
+<p>在服务类上建立客户所需的所有函数，用以隐藏委托关系</p>
+</blockquote>
+<ol>
+<li></li>
+</ol>
+<p><img src="/../img/hideDelegate1.png"></p>
+<ol start="2">
+<li><img src="/../img/hideDelegate2.png"></li>
+</ol>
+<h2 id="动机-4"><a href="#动机-4" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>“封装”意味着每个对象都应该尽可能少了解系统的其他部分。</li>
+<li>万一委托关系发生变化，客户也得相应变化。将委托关系隐藏起来，从而去除这种依赖。</li>
+</ul>
+<h1 id="Remove-Middle-Man-（移除中间人）"><a href="#Remove-Middle-Man-（移除中间人）" class="headerlink" title="Remove Middle Man （移除中间人）"></a>Remove Middle Man （移除中间人）</h1><blockquote>
+<p>让客户直接调用受委托类</p>
+</blockquote>
+<ol>
+<li><p><img src="/../img/hideDelegate2.png"></p>
+</li>
+<li><p><img src="/../img/hideDelegate1.png"></p>
+</li>
+</ol>
+<h2 id="动机-5"><a href="#动机-5" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>“封装受委托对象”要付出代价： 每当客户要使用委托类的新特性时，你就必须在服务端添加一个简单的委托函数。随着受委托的特性越来越多，服务类完全变成了一个“中间人”。</li>
+</ul>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li>也可能想保留一部分委托关系。希望对某些客户隐藏委托关系，对另一些用户直接使用委托关系。</li>
+</ul>
+<h1 id="Introduce-Foreign-Method（引入外加函数）"><a href="#Introduce-Foreign-Method（引入外加函数）" class="headerlink" title="Introduce Foreign Method（引入外加函数）"></a>Introduce Foreign Method（引入外加函数）</h1><blockquote>
+<p>在客户类中建立一个函数，并以第一参数形式传入一个服务类实例。</p>
+</blockquote>
+<pre><code class="java">Date newStart = new Date(previousEnd.getYear(),previousEnd.getMonth(),previousEnd.getDate()+1);
+</code></pre>
+<pre><code class="java">Date newStart = nextDate(previousEnd);
+
+private static Date nextDate(Date arg) &#123;
+  // foreign method, should be on date
+  return new Date(arg.getYear(),arg.getMonth(),arg.getDate()+1);
+&#125;
+</code></pre>
+<h2 id="动机-6"><a href="#动机-6" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>需要一项新的服务，这个类无法供应</li>
+<li>明确信号：这个函数原本应该在提供服务的类中实现</li>
+</ul>
+<h1 id="Introduce-Local-Extension-（引入本地扩展）"><a href="#Introduce-Local-Extension-（引入本地扩展）" class="headerlink" title="Introduce Local Extension （引入本地扩展）"></a>Introduce Local Extension （引入本地扩展）</h1><blockquote>
+<p>建立一个新类，使它包含这些额外函数。让其成为源类的子类或者包装类</p>
+</blockquote>
+<ol>
+<li><img src="/../img/introduceLocalExtension1.png"></li>
+<li><img src="/../img/introduceLocalExtension2.png"></li>
+</ol>
+<h2 id="动机-7"><a href="#动机-7" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>需要的额外函数超过两个，外加函数很难控制。需要将这些函数组织在一起，放到恰当的地方</li>
+<li>要达到这一目的，两种标准对象技术—— 子类化（subclassing）和包装（wrapping）——统称本地扩展（local extension)</li>
+</ul>
+<h2 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h2><ul>
+<li>一般来说，不在扩展类中重写原始类的函数，只会添加新函数</li>
+</ul>
+
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论 </span>
     </div>
