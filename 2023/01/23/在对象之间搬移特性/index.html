@@ -6,20 +6,41 @@
   <meta name="keywords" content=" 重构 ">
   <meta name="description" content="在对象之间搬移特性 | 樵子的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="几乎所有时刻，问题都源于Long Method(过长函数)  Extract Method(提炼函数)void printOwing(double amount) &amp;#123;         printBanner();                  &#x2F;&#x2F;print details         System.out.println(&quot;....&quot;);">
+<meta name="description" content="1. Self Encapsulate Field（自封装字段） 为这个字段建立取值&#x2F;设值函数，并且只以这些函数来访问字段  private int _low ,_high; bolean includes (int arg) &amp;#123;   return arg &gt;&#x3D; _low &amp;&amp; arg &lt;&#x3D; _high; &amp;#125;  private int _l">
 <meta property="og:type" content="article">
-<meta property="og:title" content="重新组织函数">
-<meta property="og:url" content="https://extramoney.github.io/2023/01/20/%E9%87%8D%E6%96%B0%E7%BB%84%E7%BB%87%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:title" content="重新组织数据">
+<meta property="og:url" content="https://extramoney.github.io/2023/01/25/%E9%87%8D%E6%96%B0%E7%BB%84%E7%BB%87%E6%95%B0%E6%8D%AE/index.html">
 <meta property="og:site_name" content="樵子的博客">
-<meta property="og:description" content="几乎所有时刻，问题都源于Long Method(过长函数)  Extract Method(提炼函数)void printOwing(double amount) &amp;#123;         printBanner();                  &#x2F;&#x2F;print details         System.out.println(&quot;....&quot;);">
+<meta property="og:description" content="1. Self Encapsulate Field（自封装字段） 为这个字段建立取值&#x2F;设值函数，并且只以这些函数来访问字段  private int _low ,_high; bolean includes (int arg) &amp;#123;   return arg &gt;&#x3D; _low &amp;&amp; arg &lt;&#x3D; _high; &amp;#125;  private int _l">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://extramoney.github.io/img/replaceMethodWithMethodObj.png">
-<meta property="article:published_time" content="2023-01-20T01:18:46.000Z">
-<meta property="article:modified_time" content="2023-01-22T03:17:14.554Z">
+<meta property="og:image" content="https://extramoney.github.io/img/replaceDataValueWithObj1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/replaceDataValueWithObj2.png">
+<meta property="og:image" content="https://extramoney.github.io/img/replaceDataValueWithObj2.png">
+<meta property="og:image" content="https://extramoney.github.io/img/changeValuetoReference.png">
+<meta property="og:image" content="https://extramoney.github.io/img/changeValuetoReference.png">
+<meta property="og:image" content="https://extramoney.github.io/img/replaceDataValueWithObj2.png">
+<meta property="og:image" content="https://extramoney.github.io/img/duplicateObservedData1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/duplicateObservedData2.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/cuab1.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/cuab2.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/cuab2.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/cuab1.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/ec1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/ec2.png">
+<meta property="og:image" content="https://extramoney.github.io/img/rtcc1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/rtcc2.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/rtcs1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/rtcs2.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/rtcs1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/rtcss.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/rsf1.webp">
+<meta property="og:image" content="https://extramoney.github.io/img/rsf2.png">
+<meta property="article:published_time" content="2023-01-25T01:51:04.000Z">
+<meta property="article:modified_time" content="2023-01-30T02:54:04.659Z">
 <meta property="article:author" content="樵子">
 <meta property="article:tag" content="重构">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://extramoney.github.io/img/replaceMethodWithMethodObj.png">
+<meta name="twitter:image" content="https://extramoney.github.io/img/replaceDataValueWithObj1.png">
 
 
 <link rel="icon" href="/img/a.jpeg">
@@ -91,7 +112,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(3)</small>
+                <small>(4)</small>
             
         </div>
     </li>
@@ -137,7 +158,7 @@
                     <div data-rel="重构">
                         
                         重构
-                        <small>(2)</small>
+                        <small>(3)</small>
                         
                     </div>
                     
@@ -158,7 +179,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="3">
+<input type="hidden" id="yelog_site_posts_number" value="4">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -230,6 +251,15 @@
         
         
         <a  class="全部文章 重构 "
+           href="/2023/01/25/%E9%87%8D%E6%96%B0%E7%BB%84%E7%BB%87%E6%95%B0%E6%8D%AE/"
+           data-tag="重构"
+           data-author="" >
+            <span class="post-title" title="重新组织数据">重新组织数据</span>
+            <span class="post-date" title="2023-01-25 09:51:04">2023/01/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 重构 "
            href="/2023/01/23/%E5%9C%A8%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E6%90%AC%E7%A7%BB%E7%89%B9%E6%80%A7/"
            data-tag="重构"
            data-author="" >
@@ -291,7 +321,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2023-01-23 11:21:28'>2023-01-23 09:14</time>
+            发布时间 : <time class="date" title='最后更新: 2023-01-26 10:39:58'>2023-01-23 09:14</time>
         
     </div>
     <div class="article-meta">
@@ -324,7 +354,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Move-Method%EF%BC%88%E6%90%AC%E7%A7%BB%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">Move Method（搬移函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Move-Field%EF%BC%88%E6%90%AC%E7%A7%BB%E5%AD%97%E6%AE%B5%EF%BC%89"><span class="toc-text">Move Field（搬移字段）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-1"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Extract-Class%EF%BC%88%E6%8F%90%E7%82%BC%E7%B1%BB%EF%BC%89"><span class="toc-text">Extract Class（提炼类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-2"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Inline-Class-%EF%BC%88%E5%B0%86%E7%B1%BB%E5%86%85%E8%81%94%E5%8C%96%EF%BC%89"><span class="toc-text">Inline Class （将类内联化）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-3"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hide-Delegate-%EF%BC%88%E9%9A%90%E8%97%8F%E2%80%9C%E5%A7%94%E6%89%98%E5%85%B3%E7%B3%BB%E2%80%9D%EF%BC%89"><span class="toc-text">Hide Delegate （隐藏“委托关系”）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-4"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Remove-Middle-Man-%EF%BC%88%E7%A7%BB%E9%99%A4%E4%B8%AD%E9%97%B4%E4%BA%BA%EF%BC%89"><span class="toc-text">Remove Middle Man （移除中间人）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-5"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduce-Foreign-Method%EF%BC%88%E5%BC%95%E5%85%A5%E5%A4%96%E5%8A%A0%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">Introduce Foreign Method（引入外加函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-6"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduce-Local-Extension-%EF%BC%88%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0%E6%89%A9%E5%B1%95%EF%BC%89"><span class="toc-text">Introduce Local Extension （引入本地扩展）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-7"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F-1"><span class="toc-text">注意</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Move-Method%EF%BC%88%E6%90%AC%E7%A7%BB%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">1. Move Method（搬移函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Move-Field%EF%BC%88%E6%90%AC%E7%A7%BB%E5%AD%97%E6%AE%B5%EF%BC%89"><span class="toc-text">2. Move Field（搬移字段）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-1"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Extract-Class%EF%BC%88%E6%8F%90%E7%82%BC%E7%B1%BB%EF%BC%89"><span class="toc-text">3. Extract Class（提炼类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-2"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Inline-Class-%EF%BC%88%E5%B0%86%E7%B1%BB%E5%86%85%E8%81%94%E5%8C%96%EF%BC%89"><span class="toc-text">4. Inline Class （将类内联化）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-3"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-Hide-Delegate-%EF%BC%88%E9%9A%90%E8%97%8F%E2%80%9C%E5%A7%94%E6%89%98%E5%85%B3%E7%B3%BB%E2%80%9D%EF%BC%89"><span class="toc-text">5. Hide Delegate （隐藏“委托关系”）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-4"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-Remove-Middle-Man-%EF%BC%88%E7%A7%BB%E9%99%A4%E4%B8%AD%E9%97%B4%E4%BA%BA%EF%BC%89"><span class="toc-text">6. Remove Middle Man （移除中间人）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-5"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-Introduce-Foreign-Method%EF%BC%88%E5%BC%95%E5%85%A5%E5%A4%96%E5%8A%A0%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">7. Introduce Foreign Method（引入外加函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-6"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Introduce-Local-Extension-%EF%BC%88%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0%E6%89%A9%E5%B1%95%EF%BC%89"><span class="toc-text">8. Introduce Local Extension （引入本地扩展）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-7"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F-1"><span class="toc-text">注意</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -343,7 +373,7 @@
         <blockquote>
 <p>在对象的设计过程中，“决定把责任放在哪儿” 即使不是最重要的事，也是最重要的事之一。</p>
 </blockquote>
-<h1 id="Move-Method（搬移函数）"><a href="#Move-Method（搬移函数）" class="headerlink" title="Move Method（搬移函数）"></a>Move Method（搬移函数）</h1><blockquote>
+<h1 id="1-Move-Method（搬移函数）"><a href="#1-Move-Method（搬移函数）" class="headerlink" title="1. Move Method（搬移函数）"></a>1. Move Method（搬移函数）</h1><blockquote>
 <p>在该函数最常引用的类中建立一个有着类似行为的新函数。将旧函数变成一个单纯的委托函数，或是将旧函数完全移除。</p>
 </blockquote>
 <p><img src="/../img/moveMethod1.png"></p>
@@ -352,7 +382,7 @@
 <li>如果一个类有太多行为，或如果一个类与另一个类有太多合作而形成高度耦合，就搬移函数。</li>
 <li>使用另一个对象的次数比使用自己所驻对象的次数还多。</li>
 </ul>
-<h1 id="Move-Field（搬移字段）"><a href="#Move-Field（搬移字段）" class="headerlink" title="Move Field（搬移字段）"></a>Move Field（搬移字段）</h1><blockquote>
+<h1 id="2-Move-Field（搬移字段）"><a href="#2-Move-Field（搬移字段）" class="headerlink" title="2. Move Field（搬移字段）"></a>2. Move Field（搬移字段）</h1><blockquote>
 <p>在目标类新建一个字段，修改源字段的所有用户，令它们改用新字段。</p>
 </blockquote>
 <p><img src="/../img/moveField1.png"></p>
@@ -360,7 +390,7 @@
 <h2 id="动机-1"><a href="#动机-1" class="headerlink" title="动机"></a>动机</h2><ul>
 <li>对于一个字段，在其所驻类之外的另一个类中有更多函数使用了它，就会考虑搬移这个字段。</li>
 </ul>
-<h1 id="Extract-Class（提炼类）"><a href="#Extract-Class（提炼类）" class="headerlink" title="Extract Class（提炼类）"></a>Extract Class（提炼类）</h1><blockquote>
+<h1 id="3-Extract-Class（提炼类）"><a href="#3-Extract-Class（提炼类）" class="headerlink" title="3. Extract Class（提炼类）"></a>3. Extract Class（提炼类）</h1><blockquote>
 <p>建立一个新类，将相关的字段和函数从旧类搬移到新类。</p>
 </blockquote>
 <p><img src="/../img/extractClass1.png"></p>
@@ -370,7 +400,7 @@
 <li>类含有大量函数和数据</li>
 <li>开发后期出现的信号是类的子类化方式</li>
 </ul>
-<h1 id="Inline-Class-（将类内联化）"><a href="#Inline-Class-（将类内联化）" class="headerlink" title="Inline Class （将类内联化）"></a>Inline Class （将类内联化）</h1><blockquote>
+<h1 id="4-Inline-Class-（将类内联化）"><a href="#4-Inline-Class-（将类内联化）" class="headerlink" title="4. Inline Class （将类内联化）"></a>4. Inline Class （将类内联化）</h1><blockquote>
 <p>将这个类的所有特性搬移到另一个类中，然后移除原类</p>
 </blockquote>
 <ol>
@@ -384,7 +414,7 @@
 <h2 id="动机-3"><a href="#动机-3" class="headerlink" title="动机"></a>动机</h2><ul>
 <li>如果一个类不再承担足够责任、不再有单独存在的理由</li>
 </ul>
-<h1 id="Hide-Delegate-（隐藏“委托关系”）"><a href="#Hide-Delegate-（隐藏“委托关系”）" class="headerlink" title="Hide Delegate （隐藏“委托关系”）"></a>Hide Delegate （隐藏“委托关系”）</h1><blockquote>
+<h1 id="5-Hide-Delegate-（隐藏“委托关系”）"><a href="#5-Hide-Delegate-（隐藏“委托关系”）" class="headerlink" title="5. Hide Delegate （隐藏“委托关系”）"></a>5. Hide Delegate （隐藏“委托关系”）</h1><blockquote>
 <p>在服务类上建立客户所需的所有函数，用以隐藏委托关系</p>
 </blockquote>
 <ol>
@@ -398,7 +428,7 @@
 <li>“封装”意味着每个对象都应该尽可能少了解系统的其他部分。</li>
 <li>万一委托关系发生变化，客户也得相应变化。将委托关系隐藏起来，从而去除这种依赖。</li>
 </ul>
-<h1 id="Remove-Middle-Man-（移除中间人）"><a href="#Remove-Middle-Man-（移除中间人）" class="headerlink" title="Remove Middle Man （移除中间人）"></a>Remove Middle Man （移除中间人）</h1><blockquote>
+<h1 id="6-Remove-Middle-Man-（移除中间人）"><a href="#6-Remove-Middle-Man-（移除中间人）" class="headerlink" title="6. Remove Middle Man （移除中间人）"></a>6. Remove Middle Man （移除中间人）</h1><blockquote>
 <p>让客户直接调用受委托类</p>
 </blockquote>
 <ol>
@@ -413,7 +443,7 @@
 <h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
 <li>也可能想保留一部分委托关系。希望对某些客户隐藏委托关系，对另一些用户直接使用委托关系。</li>
 </ul>
-<h1 id="Introduce-Foreign-Method（引入外加函数）"><a href="#Introduce-Foreign-Method（引入外加函数）" class="headerlink" title="Introduce Foreign Method（引入外加函数）"></a>Introduce Foreign Method（引入外加函数）</h1><blockquote>
+<h1 id="7-Introduce-Foreign-Method（引入外加函数）"><a href="#7-Introduce-Foreign-Method（引入外加函数）" class="headerlink" title="7. Introduce Foreign Method（引入外加函数）"></a>7. Introduce Foreign Method（引入外加函数）</h1><blockquote>
 <p>在客户类中建立一个函数，并以第一参数形式传入一个服务类实例。</p>
 </blockquote>
 <pre><code class="java">Date newStart = new Date(previousEnd.getYear(),previousEnd.getMonth(),previousEnd.getDate()+1);
@@ -429,7 +459,7 @@ private static Date nextDate(Date arg) &#123;
 <li>需要一项新的服务，这个类无法供应</li>
 <li>明确信号：这个函数原本应该在提供服务的类中实现</li>
 </ul>
-<h1 id="Introduce-Local-Extension-（引入本地扩展）"><a href="#Introduce-Local-Extension-（引入本地扩展）" class="headerlink" title="Introduce Local Extension （引入本地扩展）"></a>Introduce Local Extension （引入本地扩展）</h1><blockquote>
+<h1 id="8-Introduce-Local-Extension-（引入本地扩展）"><a href="#8-Introduce-Local-Extension-（引入本地扩展）" class="headerlink" title="8. Introduce Local Extension （引入本地扩展）"></a>8. Introduce Local Extension （引入本地扩展）</h1><blockquote>
 <p>建立一个新类，使它包含这些额外函数。让其成为源类的子类或者包装类</p>
 </blockquote>
 <ol>
