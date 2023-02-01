@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>在对象之间搬移特性 | 樵子的博客</title>
+  <title>简化条件表达式 | 樵子的博客</title>
   <meta name="keywords" content=" 重构 ">
-  <meta name="description" content="在对象之间搬移特性 | 樵子的博客">
+  <meta name="description" content="简化条件表达式 | 樵子的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="1. Decompose Conditional（分解条件表达式） 你有一个复杂的条件（if-then-else）语句 从if、then、else三个段落中分别提炼出独立函数  if (data.before(SUMMER_START) || data.after(SUMMER_END)) &amp;#123;       charge &#x3D; quantity * _winterRate + _winter">
 <meta property="og:type" content="article">
@@ -280,9 +280,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-在对象之间搬移特性" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-简化条件表达式" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">在对象之间搬移特性</h1>
+        <h1 class="article-title">简化条件表达式</h1>
     
     <div class="article-meta">
         
@@ -307,7 +307,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2023-02-01 10:18:09'>2023-01-23 09:14</time>
+            发布时间 : <time class="date" title='最后更新: 2023-02-01 10:17:30'>2023-01-31 09:29</time>
         
     </div>
     <div class="article-meta">
@@ -340,7 +340,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Move-Method%EF%BC%88%E6%90%AC%E7%A7%BB%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">1. Move Method（搬移函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Move-Field%EF%BC%88%E6%90%AC%E7%A7%BB%E5%AD%97%E6%AE%B5%EF%BC%89"><span class="toc-text">2. Move Field（搬移字段）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-1"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Extract-Class%EF%BC%88%E6%8F%90%E7%82%BC%E7%B1%BB%EF%BC%89"><span class="toc-text">3. Extract Class（提炼类）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-2"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Inline-Class-%EF%BC%88%E5%B0%86%E7%B1%BB%E5%86%85%E8%81%94%E5%8C%96%EF%BC%89"><span class="toc-text">4. Inline Class （将类内联化）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-3"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-Hide-Delegate-%EF%BC%88%E9%9A%90%E8%97%8F%E2%80%9C%E5%A7%94%E6%89%98%E5%85%B3%E7%B3%BB%E2%80%9D%EF%BC%89"><span class="toc-text">5. Hide Delegate （隐藏“委托关系”）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-4"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-Remove-Middle-Man-%EF%BC%88%E7%A7%BB%E9%99%A4%E4%B8%AD%E9%97%B4%E4%BA%BA%EF%BC%89"><span class="toc-text">6. Remove Middle Man （移除中间人）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-5"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-Introduce-Foreign-Method%EF%BC%88%E5%BC%95%E5%85%A5%E5%A4%96%E5%8A%A0%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-text">7. Introduce Foreign Method（引入外加函数）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-6"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Introduce-Local-Extension-%EF%BC%88%E5%BC%95%E5%85%A5%E6%9C%AC%E5%9C%B0%E6%89%A9%E5%B1%95%EF%BC%89"><span class="toc-text">8. Introduce Local Extension （引入本地扩展）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-7"><span class="toc-text">动机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F-1"><span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-text">引用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Decompose-Conditional%EF%BC%88%E5%88%86%E8%A7%A3%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%89"><span class="toc-text">1. Decompose Conditional（分解条件表达式）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Consolidate-Conditional-Expression%EF%BC%88%E5%90%88%E5%B9%B6%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%89"><span class="toc-text">2. Consolidate Conditional Expression（合并条件表达式）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-1"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-Consolidate-Duplicate-Conditional-Fragments%EF%BC%88%E5%90%88%E5%B9%B6%E9%87%8D%E5%A4%8D%E7%9A%84%E6%9D%A1%E4%BB%B6%E7%89%87%E6%AE%B5%EF%BC%89"><span class="toc-text">3. Consolidate Duplicate Conditional Fragments（合并重复的条件片段）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-2"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-Remove-Control-Flag-%EF%BC%88%E7%A7%BB%E9%99%A4%E6%8E%A7%E5%88%B6%E6%A0%87%E8%AE%B0%EF%BC%89"><span class="toc-text">4. Remove Control Flag （移除控制标记）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-3"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-Replace-Nested-Conditional-with-Guard-Clauses%EF%BC%88%E5%8D%AB%E8%AF%AD%E5%8F%A5%E5%8F%96%E4%BB%A3%E5%B5%8C%E5%A5%97%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%89"><span class="toc-text">5. Replace Nested Conditional with Guard Clauses（卫语句取代嵌套条件表达式）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-4"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-Replace-Conditional-with-Polymorphism%EF%BC%88%E4%BB%A5%E5%A4%9A%E6%80%81%E5%8F%96%E4%BB%A3%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%89"><span class="toc-text">6. Replace Conditional with Polymorphism（以多态取代条件表达式）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-5"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-Introduce-Null-Object%EF%BC%88%E5%BC%95%E5%85%A5Null%E5%AF%B9%E8%B1%A1%EF%BC%89"><span class="toc-text">7. Introduce Null Object（引入Null对象）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-6"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Introduce-Assertion%EF%BC%88%E5%BC%95%E5%85%A5%E6%96%AD%E8%A8%80%EF%BC%89"><span class="toc-text">8. Introduce Assertion（引入断言）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%9C%BA-7"><span class="toc-text">动机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-text">引用</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -356,108 +356,214 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>在对象的设计过程中，“决定把责任放在哪儿” 即使不是最重要的事，也是最重要的事之一。</p>
+        <h1 id="1-Decompose-Conditional（分解条件表达式）"><a href="#1-Decompose-Conditional（分解条件表达式）" class="headerlink" title="1. Decompose Conditional（分解条件表达式）"></a>1. Decompose Conditional（分解条件表达式）</h1><blockquote>
+<p>你有一个复杂的条件（if-then-else）语句</p>
+<p>从if、then、else三个段落中分别提炼出独立函数</p>
 </blockquote>
-<h1 id="1-Move-Method（搬移函数）"><a href="#1-Move-Method（搬移函数）" class="headerlink" title="1. Move Method（搬移函数）"></a>1. Move Method（搬移函数）</h1><blockquote>
-<p>在该函数最常引用的类中建立一个有着类似行为的新函数。将旧函数变成一个单纯的委托函数，或是将旧函数完全移除。</p>
-</blockquote>
-<p><img src="/../img/moveMethod1.png"></p>
-<p><img src="/../img/moveMethod2.png"></p>
-<h2 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>如果一个类有太多行为，或如果一个类与另一个类有太多合作而形成高度耦合，就搬移函数。</li>
-<li>使用另一个对象的次数比使用自己所驻对象的次数还多。</li>
-</ul>
-<h1 id="2-Move-Field（搬移字段）"><a href="#2-Move-Field（搬移字段）" class="headerlink" title="2. Move Field（搬移字段）"></a>2. Move Field（搬移字段）</h1><blockquote>
-<p>在目标类新建一个字段，修改源字段的所有用户，令它们改用新字段。</p>
-</blockquote>
-<p><img src="/../img/moveField1.png"></p>
-<p><img src="/../img/moveField2.png"></p>
-<h2 id="动机-1"><a href="#动机-1" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>对于一个字段，在其所驻类之外的另一个类中有更多函数使用了它，就会考虑搬移这个字段。</li>
-</ul>
-<h1 id="3-Extract-Class（提炼类）"><a href="#3-Extract-Class（提炼类）" class="headerlink" title="3. Extract Class（提炼类）"></a>3. Extract Class（提炼类）</h1><blockquote>
-<p>建立一个新类，将相关的字段和函数从旧类搬移到新类。</p>
-</blockquote>
-<p><img src="/../img/extractClass1.png"></p>
-<p><img src="/../img/extractClass2.png"></p>
-<h2 id="动机-2"><a href="#动机-2" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>一个类应该是一个清楚的抽象，处理一些明确的责任</li>
-<li>类含有大量函数和数据</li>
-<li>开发后期出现的信号是类的子类化方式</li>
-</ul>
-<h1 id="4-Inline-Class-（将类内联化）"><a href="#4-Inline-Class-（将类内联化）" class="headerlink" title="4. Inline Class （将类内联化）"></a>4. Inline Class （将类内联化）</h1><blockquote>
-<p>将这个类的所有特性搬移到另一个类中，然后移除原类</p>
-</blockquote>
-<ol>
-<li></li>
-</ol>
-<p><img src="/../img/extractClass2.png"></p>
-<ol start="2">
-<li></li>
-</ol>
-<p><img src="/../img/extractClass1.png"></p>
-<h2 id="动机-3"><a href="#动机-3" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>如果一个类不再承担足够责任、不再有单独存在的理由</li>
-</ul>
-<h1 id="5-Hide-Delegate-（隐藏“委托关系”）"><a href="#5-Hide-Delegate-（隐藏“委托关系”）" class="headerlink" title="5. Hide Delegate （隐藏“委托关系”）"></a>5. Hide Delegate （隐藏“委托关系”）</h1><blockquote>
-<p>在服务类上建立客户所需的所有函数，用以隐藏委托关系</p>
-</blockquote>
-<ol>
-<li></li>
-</ol>
-<p><img src="/../img/hideDelegate1.png"></p>
-<ol start="2">
-<li><img src="/../img/hideDelegate2.png"></li>
-</ol>
-<h2 id="动机-4"><a href="#动机-4" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>“封装”意味着每个对象都应该尽可能少了解系统的其他部分。</li>
-<li>万一委托关系发生变化，客户也得相应变化。将委托关系隐藏起来，从而去除这种依赖。</li>
-</ul>
-<h1 id="6-Remove-Middle-Man-（移除中间人）"><a href="#6-Remove-Middle-Man-（移除中间人）" class="headerlink" title="6. Remove Middle Man （移除中间人）"></a>6. Remove Middle Man （移除中间人）</h1><blockquote>
-<p>让客户直接调用受委托类</p>
-</blockquote>
-<ol>
-<li><p><img src="/../img/hideDelegate2.png"></p>
-</li>
-<li><p><img src="/../img/hideDelegate1.png"></p>
-</li>
-</ol>
-<h2 id="动机-5"><a href="#动机-5" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>“封装受委托对象”要付出代价： 每当客户要使用委托类的新特性时，你就必须在服务端添加一个简单的委托函数。随着受委托的特性越来越多，服务类完全变成了一个“中间人”。</li>
-</ul>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
-<li>也可能想保留一部分委托关系。希望对某些客户隐藏委托关系，对另一些用户直接使用委托关系。</li>
-</ul>
-<h1 id="7-Introduce-Foreign-Method（引入外加函数）"><a href="#7-Introduce-Foreign-Method（引入外加函数）" class="headerlink" title="7. Introduce Foreign Method（引入外加函数）"></a>7. Introduce Foreign Method（引入外加函数）</h1><blockquote>
-<p>在客户类中建立一个函数，并以第一参数形式传入一个服务类实例。</p>
-</blockquote>
-<pre><code class="java">Date newStart = new Date(previousEnd.getYear(),previousEnd.getMonth(),previousEnd.getDate()+1);
+<pre><code class="java">if (data.before(SUMMER_START) || data.after(SUMMER_END)) &#123;
+      charge = quantity * _winterRate + _winterServiceChange;
+&#125; else &#123;
+      charge = quantity * _summerRate;
+&#125;
 </code></pre>
-<pre><code class="java">Date newStart = nextDate(previousEnd);
+<pre><code class="java">if (notSummer(data))
+  charge = winterCharge(quantity);
+else charge = summerCharge(quantity);
+</code></pre>
+<h2 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>大型函数自身就会使代码的可读性下降，而条件逻辑则会使代码更难阅读</li>
+<li>将每个分支条件分解成新函数的好处：可以突出条件逻辑，更清楚地表明每个分支的作用，并且突出每个分支的原因。</li>
+</ul>
+<h1 id="2-Consolidate-Conditional-Expression（合并条件表达式）"><a href="#2-Consolidate-Conditional-Expression（合并条件表达式）" class="headerlink" title="2. Consolidate Conditional Expression（合并条件表达式）"></a>2. Consolidate Conditional Expression（合并条件表达式）</h1><blockquote>
+<p>有一系列条件测试，都得到<strong>相同的结果</strong></p>
+<p>将这些测试合并为一个条件表达式，并将这个条件表达式提炼成为一个独立函数。</p>
+</blockquote>
+<pre><code class="java">double disabilityAmount() &#123;
+  if (_seniority &lt; 2) return 0;
+  if (_monthsDisabled &gt; 12) return 0;
+  if (_isPartTime) return 0;
+&#125;
+</code></pre>
+<pre><code class="java">double disabilityAmount() &#123;
+  if (isNotEligibleForDisability()) return 0;
+&#125;
+</code></pre>
+<h2 id="动机-1"><a href="#动机-1" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>合并后的条件代码会让检查的用意更清晰。</li>
+<li>这项重构往往可以为你使用Extract Method做好准备。</li>
+</ul>
+<h1 id="3-Consolidate-Duplicate-Conditional-Fragments（合并重复的条件片段）"><a href="#3-Consolidate-Duplicate-Conditional-Fragments（合并重复的条件片段）" class="headerlink" title="3. Consolidate Duplicate Conditional Fragments（合并重复的条件片段）"></a>3. Consolidate Duplicate Conditional Fragments（合并重复的条件片段）</h1><blockquote>
+<p>在条件表达式的每个分支上有着相同的一段代码</p>
+<p>将这段重复代码搬移到条件表达式之外</p>
+</blockquote>
+<pre><code class="java">if (isSpecialDeal()) &#123;
+  total = price * 0.95;
+  send();
+&#125; else &#123;
+  total = price * 0.98;
+  send();
+&#125;
+</code></pre>
+<pre><code class="java">if (isSpecialDeal()) &#123;
+  total = price * 0.95;
+&#125; else &#123;
+  total = price * 0.98;
+&#125;
+send();
+</code></pre>
+<h2 id="动机-2"><a href="#动机-2" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>所有分支都执行了相同的某段代码，将这段代码搬到条件表达式的外面。这样，代码才能更清楚地表明哪些东西随条件的变化而变化、哪些东西保持不变。</li>
+</ul>
+<h1 id="4-Remove-Control-Flag-（移除控制标记）"><a href="#4-Remove-Control-Flag-（移除控制标记）" class="headerlink" title="4. Remove Control Flag （移除控制标记）"></a>4. Remove Control Flag （移除控制标记）</h1><blockquote>
+<p>在一系列布尔表达式中，某个变量带有“控制标记”（control flag）的作用。</p>
+<p><strong>以break语句或return语句取代控制标记。</strong></p>
+</blockquote>
+<h2 id="动机-3"><a href="#动机-3" class="headerlink" title="动机"></a>动机</h2><pre><code>set done to false
+while not done
+    if (condition)
+        do something
+        set done to true
+    next step of loop
+</code></pre>
+<p>这样的控制标记带来的麻烦超过了它所带来的便利。</p>
+<p>结构化编程原则告诉他们： 每个子程序只能有一个入口和一个出口。</p>
+<p>“单一出口”原则会让你在代码中加入讨厌的控制标记，大大降低条件表达式的可读性。</p>
+<h1 id="5-Replace-Nested-Conditional-with-Guard-Clauses（卫语句取代嵌套条件表达式）"><a href="#5-Replace-Nested-Conditional-with-Guard-Clauses（卫语句取代嵌套条件表达式）" class="headerlink" title="5. Replace Nested Conditional with Guard Clauses（卫语句取代嵌套条件表达式）"></a>5. Replace Nested Conditional with Guard Clauses（卫语句取代嵌套条件表达式）</h1><blockquote>
+<p>函数中的条件逻辑使人难以看清楚正常的执行路径。</p>
+<p>使用卫语句表现所有特殊情况。</p>
+<ul>
+<li>如果条件极其罕见，就应该单独检查条件，并在该条件为真的时候，从函数中返回。这样单独检查常常被称为“卫语句”(guard clauses)</li>
+</ul>
+</blockquote>
+<pre><code class="java">double getPayAmount() &#123;
+  double result;
+  if (_isDead) result = deadAmount();
+  else
+    if (_isSeparated) result = separatedAmount();
+      else &#123;
+      if (isRetired) result = retiredAmount();
+      else result = normalPayAmount();
+    &#125;
+  return result;
+&#125;
+</code></pre>
+<pre><code class="java">double getPayAmount() &#123;
+  if (isDead) return deadAmount();
+  if (_isSeparated) return separatedAmount();
+  if (_isRetired) return retiredAmount();
+  return normalPayAmount();
+&#125;
+</code></pre>
+<h2 id="动机-4"><a href="#动机-4" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>精髓：给某一个条件分支以特别的重视</li>
+</ul>
+<h1 id="6-Replace-Conditional-with-Polymorphism（以多态取代条件表达式）"><a href="#6-Replace-Conditional-with-Polymorphism（以多态取代条件表达式）" class="headerlink" title="6. Replace Conditional with Polymorphism（以多态取代条件表达式）"></a>6. Replace Conditional with Polymorphism（以多态取代条件表达式）</h1><blockquote>
+<p>你手上有个条件表达式，它根据对象类型的不同而选择不同的行为。</p>
+<p>将这个条件表达式的每一个分支放进一个子类内的重写函数中，然后将原始函数声明为抽象函数。</p>
+</blockquote>
+<pre><code class="java">double getSpeed() &#123;
+  switch(_type) &#123;
+    case EUROPEAN :
+      return getBaseSpeed();
+    case AFRICAN:
+      return getBaseSpeed()-getLoadFactor() * _numberOfCoconuts;
+    case NORWEGIAN_BLUE:
+      return (_isNailed)? 0 : getBaseSpeed(_voltage);
+  &#125;
+  throw new RuntimeException(&quot;Should be unreachable&quot;);
+&#125;
+</code></pre>
+<pre><code class="java">
+class Bird &#123;
+  double getSpeed()&#123;
+      switch(_type) &#123;
+        case EUROPEAN :
+          return European().getSpeed();
+        case AFRICAN:
+          return African().getSpeed();
+        case NORWEGIAN_BLUE:
+          return NorwegianBlue().getSpeed();
+      &#125;
+      throw new RuntimeException(&quot;Should be unreachable&quot;);
+  &#125;
+&#125;
 
-private static Date nextDate(Date arg) &#123;
-  // foreign method, should be on date
-  return new Date(arg.getYear(),arg.getMonth(),arg.getDate()+1);
+class European extends Bird&#123;
+  double getSpeed()&#123;
+    return getBaseSpeed();
+  &#125;
+&#125;
+class African extends Bird&#123;
+  double getSpeed()&#123;
+    return getBaseSpeed()-getLoadFactor() * _numberOfCoconuts;
+  &#125;
+&#125;
+class NorwegianBlue extends Bird&#123;
+  double getSpeed()&#123;
+    return (_isNailed)? 0 : getBaseSpeed(_voltage);
+  &#125;
+&#125;
+</code></pre>
+<h2 id="动机-5"><a href="#动机-5" class="headerlink" title="动机"></a>动机</h2><ul>
+<li>多态最根本的好处就是：如果你需要根据对象的不同类型而采取不同的行为，多态使你不必编写明显的条件表达式。</li>
+<li>如果同一组条件表达式在程序许多地点出现，那么使用多态的收益是最大的。</li>
+</ul>
+<h1 id="7-Introduce-Null-Object（引入Null对象）"><a href="#7-Introduce-Null-Object（引入Null对象）" class="headerlink" title="7. Introduce Null Object（引入Null对象）"></a>7. Introduce Null Object（引入Null对象）</h1><blockquote>
+<p>你需要再三检查某对象是否为null</p>
+<p>将null值替换为null对象</p>
+</blockquote>
+<pre><code class="java">if (customer == null) plan = BillingPlan.basic();
+else plan = customer.getPlan();
+</code></pre>
+<pre><code class="java">interface Nullable &#123;
+  boolean isNull();
+&#125;
+
+class NullCustomer extends Customer implements Nullable&#123;
+  public boolean isNull() return true;
+&#125;
+
+class Customer implements Nullable&#123;
+  public boolean isNull() return false;
+  
+  static Customer newNull() &#123;
+    return new NullCustomer();
+  &#125;
+&#125;
+
+class Site &#123;
+  // 不返回Null,而是返回一个NullCustomer对象
+  Customer getCustomer() &#123;
+    return (_customer == null)? Customer.newNull() : _customer;
+  &#125;
+  
+  if (customer.isNull()) plan = BillingPlan.basic();
+    else plan = customer.getPlan();
 &#125;
 </code></pre>
 <h2 id="动机-6"><a href="#动机-6" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>需要一项新的服务，这个类无法供应</li>
-<li>明确信号：这个函数原本应该在提供服务的类中实现</li>
+<li>当某个字段内容为null时，多态可扮演另一个较不直观的用途</li>
 </ul>
-<h1 id="8-Introduce-Local-Extension-（引入本地扩展）"><a href="#8-Introduce-Local-Extension-（引入本地扩展）" class="headerlink" title="8. Introduce Local Extension （引入本地扩展）"></a>8. Introduce Local Extension （引入本地扩展）</h1><blockquote>
-<p>建立一个新类，使它包含这些额外函数。让其成为源类的子类或者包装类</p>
+<h1 id="8-Introduce-Assertion（引入断言）"><a href="#8-Introduce-Assertion（引入断言）" class="headerlink" title="8. Introduce Assertion（引入断言）"></a>8. Introduce Assertion（引入断言）</h1><blockquote>
+<p>某一段代码需要对程序状态做出某种假设</p>
+<p>以断言明确表现这种假设。</p>
 </blockquote>
-<ol>
-<li><img src="/../img/introduceLocalExtension1.png"></li>
-<li><img src="/../img/introduceLocalExtension2.png"></li>
-</ol>
+<pre><code class="java">double getExpenseLimit() &#123;
+  return (_expenseLimit != NULL_EXPENSE)?
+    _expenseLimit :
+      _primaryProject.getMemberExpenseLimit();
+&#125;
+</code></pre>
+<pre><code class="java">double getExpenseLimit() &#123;
+  Assert.isTrue(_expenseLimit != NULL_EXPENSE || _primaryProject != null);
+  return (_expenseLimit != NULL_EXPENSE)?
+    _expenseLimit :
+      _primaryProject.getMemberExpenseLimit();
+&#125;
+</code></pre>
 <h2 id="动机-7"><a href="#动机-7" class="headerlink" title="动机"></a>动机</h2><ul>
-<li>需要的额外函数超过两个，外加函数很难控制。需要将这些函数组织在一起，放到恰当的地方</li>
-<li>要达到这一目的，两种标准对象技术—— 子类化（subclassing）和包装（wrapping）——统称本地扩展（local extension)</li>
-</ul>
-<h2 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h2><ul>
-<li>一般来说，不在扩展类中重写原始类的函数，只会添加新函数</li>
+<li>常常会有一段代码：只有当某个条件为真时，该段代码才能正常运行。使用断言明确标明这些假设。</li>
+<li>断言可作为交流与调试的辅助</li>
 </ul>
 <h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><ul>
 <li>《重构-改善既有代码的设计》</li>
