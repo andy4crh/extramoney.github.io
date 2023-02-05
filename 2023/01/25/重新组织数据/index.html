@@ -2,22 +2,31 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>重新组织数据 | 樵子的博客</title>
+  <title>重构列表-重新组织数据 | 樵子的博客</title>
   <meta name="keywords" content=" 重构 ">
-  <meta name="description" content="重新组织数据 | 樵子的博客">
+  <meta name="description" content="重构列表-重新组织数据 | 樵子的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="1. Decompose Conditional（分解条件表达式） 你有一个复杂的条件（if-then-else）语句 从if、then、else三个段落中分别提炼出独立函数  if (data.before(SUMMER_START) || data.after(SUMMER_END)) &amp;#123;       charge &#x3D; quantity * _winterRate + _winter">
+<meta name="description" content="对于这些大型重构，有一件事需要注意：它们会耗费相当长的时间。 在这个过程中，应该根据需要安排自己的工作，只在需要添加新功能或者修复错误的时候才进行重构。 重构的程度只要能满足其他任务的需要就行了。  1. Tease Apart Inheritance （梳理并分解继承体系） 某个继承体系同时承担两项责任。 建立两个继承体系，并通过委托关系让其中一个可以调用另外一个。        动机 混乱的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简化条件表达式">
-<meta property="og:url" content="https://extramoney.github.io/2023/01/31/%E7%AE%80%E5%8C%96%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:title" content="重构列表-大型重构">
+<meta property="og:url" content="https://extramoney.github.io/2023/02/04/%E5%A4%A7%E5%9E%8B%E9%87%8D%E6%9E%84/index.html">
 <meta property="og:site_name" content="樵子的博客">
-<meta property="og:description" content="1. Decompose Conditional（分解条件表达式） 你有一个复杂的条件（if-then-else）语句 从if、then、else三个段落中分别提炼出独立函数  if (data.before(SUMMER_START) || data.after(SUMMER_END)) &amp;#123;       charge &#x3D; quantity * _winterRate + _winter">
+<meta property="og:description" content="对于这些大型重构，有一件事需要注意：它们会耗费相当长的时间。 在这个过程中，应该根据需要安排自己的工作，只在需要添加新功能或者修复错误的时候才进行重构。 重构的程度只要能满足其他任务的需要就行了。  1. Tease Apart Inheritance （梳理并分解继承体系） 某个继承体系同时承担两项责任。 建立两个继承体系，并通过委托关系让其中一个可以调用另外一个。        动机 混乱的">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-01-31T01:29:00.000Z">
-<meta property="article:modified_time" content="2023-02-01T02:17:30.037Z">
+<meta property="og:image" content="https://extramoney.github.io/img/tai1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/tai2.png">
+<meta property="og:image" content="https://extramoney.github.io/img/cpdo1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/cpdo2.png">
+<meta property="og:image" content="https://extramoney.github.io/img/sdp1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/sdp2.png">
+<meta property="og:image" content="https://extramoney.github.io/img/eh1.png">
+<meta property="og:image" content="https://extramoney.github.io/img/eh2.png">
+<meta property="article:published_time" content="2023-02-04T02:17:16.000Z">
+<meta property="article:modified_time" content="2023-02-05T01:39:17.057Z">
 <meta property="article:author" content="樵子">
 <meta property="article:tag" content="重构">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://extramoney.github.io/img/tai1.png">
 
 
 <link rel="icon" href="/img/a.jpeg">
@@ -89,7 +98,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(5)</small>
+                <small>(9)</small>
             
         </div>
     </li>
@@ -135,7 +144,7 @@
                     <div data-rel="重构">
                         
                         重构
-                        <small>(4)</small>
+                        <small>(8)</small>
                         
                     </div>
                     
@@ -156,7 +165,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="5">
+<input type="hidden" id="yelog_site_posts_number" value="9">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -228,10 +237,46 @@
         
         
         <a  class="全部文章 重构 "
+           href="/2023/02/05/%E5%BF%AB%E9%80%9F%E5%9C%B0%E6%94%B9%E5%96%84%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E7%9A%8420%E6%9D%A1%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/"
+           data-tag="重构"
+           data-author="" >
+            <span class="post-title" title="快速地改善代码质量的20条编程规范">快速地改善代码质量的20条编程规范</span>
+            <span class="post-date" title="2023-02-05 10:12:40">2023/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 重构 "
+           href="/2023/02/04/%E5%A4%A7%E5%9E%8B%E9%87%8D%E6%9E%84/"
+           data-tag="重构"
+           data-author="" >
+            <span class="post-title" title="重构列表-大型重构">重构列表-大型重构</span>
+            <span class="post-date" title="2023-02-04 10:17:16">2023/02/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 重构 "
+           href="/2023/02/03/%E5%A4%84%E7%90%86%E6%A6%82%E6%8B%AC%E5%85%B3%E7%B3%BB/"
+           data-tag="重构"
+           data-author="" >
+            <span class="post-title" title="重构列表-处理概括关系(继承关系)">重构列表-处理概括关系(继承关系)</span>
+            <span class="post-date" title="2023-02-03 09:35:55">2023/02/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 重构 "
+           href="/2023/02/01/%E7%AE%80%E5%8C%96%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/"
+           data-tag="重构"
+           data-author="" >
+            <span class="post-title" title="重构列表-简化函数调用">重构列表-简化函数调用</span>
+            <span class="post-date" title="2023-02-01 10:21:16">2023/02/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 重构 "
            href="/2023/01/31/%E7%AE%80%E5%8C%96%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
            data-tag="重构"
            data-author="" >
-            <span class="post-title" title="简化条件表达式">简化条件表达式</span>
+            <span class="post-title" title="重构列表-简化条件表达式">重构列表-简化条件表达式</span>
             <span class="post-date" title="2023-01-31 09:29:00">2023/01/31</span>
         </a>
         
@@ -240,7 +285,7 @@
            href="/2023/01/25/%E9%87%8D%E6%96%B0%E7%BB%84%E7%BB%87%E6%95%B0%E6%8D%AE/"
            data-tag="重构"
            data-author="" >
-            <span class="post-title" title="重新组织数据">重新组织数据</span>
+            <span class="post-title" title="重构列表-重新组织数据">重构列表-重新组织数据</span>
             <span class="post-date" title="2023-01-25 09:51:04">2023/01/25</span>
         </a>
         
@@ -249,7 +294,7 @@
            href="/2023/01/23/%E5%9C%A8%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E6%90%AC%E7%A7%BB%E7%89%B9%E6%80%A7/"
            data-tag="重构"
            data-author="" >
-            <span class="post-title" title="在对象之间搬移特性">在对象之间搬移特性</span>
+            <span class="post-title" title="重构列表-在对象之间搬移特性">重构列表-在对象之间搬移特性</span>
             <span class="post-date" title="2023-01-23 09:14:00">2023/01/23</span>
         </a>
         
@@ -258,7 +303,7 @@
            href="/2023/01/20/%E9%87%8D%E6%96%B0%E7%BB%84%E7%BB%87%E5%87%BD%E6%95%B0/"
            data-tag="重构"
            data-author="" >
-            <span class="post-title" title="重新组织函数">重新组织函数</span>
+            <span class="post-title" title="重构列表-重新组织函数">重构列表-重新组织函数</span>
             <span class="post-date" title="2023-01-20 09:18:46">2023/01/20</span>
         </a>
         
@@ -282,7 +327,7 @@
     <div class="pjax">
         <article id="post-重新组织数据" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">重新组织数据</h1>
+        <h1 class="article-title">重构列表-重新组织数据</h1>
     
     <div class="article-meta">
         
@@ -307,7 +352,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2023-02-01 10:17:47'>2023-01-25 09:51</time>
+            发布时间 : <time class="date" title='最后更新: 2023-02-03 09:34:21'>2023-01-25 09:51</time>
         
     </div>
     <div class="article-meta">
