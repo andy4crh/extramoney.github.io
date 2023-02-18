@@ -1,508 +1,411 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+
+
 <head>
-  <meta charset="utf-8">
-  <title>樵子的博客</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="樵子的博客">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="对于这些大型重构，有一件事需要注意：它们会耗费相当长的时间。 在这个过程中，应该根据需要安排自己的工作，只在需要添加新功能或者修复错误的时候才进行重构。 重构的程度只要能满足其他任务的需要就行了。  1. Tease Apart Inheritance （梳理并分解继承体系） 某个继承体系同时承担两项责任。 建立两个继承体系，并通过委托关系让其中一个可以调用另外一个。        动机 混乱的">
-<meta property="og:type" content="article">
-<meta property="og:title" content="重构列表-大型重构">
-<meta property="og:url" content="https://extramoney.github.io/2023/02/04/%E5%A4%A7%E5%9E%8B%E9%87%8D%E6%9E%84/index.html">
-<meta property="og:site_name" content="樵子的博客">
-<meta property="og:description" content="对于这些大型重构，有一件事需要注意：它们会耗费相当长的时间。 在这个过程中，应该根据需要安排自己的工作，只在需要添加新功能或者修复错误的时候才进行重构。 重构的程度只要能满足其他任务的需要就行了。  1. Tease Apart Inheritance （梳理并分解继承体系） 某个继承体系同时承担两项责任。 建立两个继承体系，并通过委托关系让其中一个可以调用另外一个。        动机 混乱的">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://extramoney.github.io/img/tai1.png">
-<meta property="og:image" content="https://extramoney.github.io/img/tai2.png">
-<meta property="og:image" content="https://extramoney.github.io/img/cpdo1.png">
-<meta property="og:image" content="https://extramoney.github.io/img/cpdo2.png">
-<meta property="og:image" content="https://extramoney.github.io/img/sdp1.png">
-<meta property="og:image" content="https://extramoney.github.io/img/sdp2.png">
-<meta property="og:image" content="https://extramoney.github.io/img/eh1.png">
-<meta property="og:image" content="https://extramoney.github.io/img/eh2.png">
-<meta property="article:published_time" content="2023-02-04T02:17:16.000Z">
-<meta property="article:modified_time" content="2023-02-05T01:39:17.057Z">
-<meta property="article:author" content="樵子">
-<meta property="article:tag" content="重构">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://extramoney.github.io/img/tai1.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="樵子的博客," />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>category: 重构 [ 樵子的博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
 
 
-<link rel="icon" href="/img/a.jpeg">
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">樵子的博客</span>
+  </a>
 
-<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover actived">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
 
-<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+  </div>
 
-<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      
 
-<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="/js/titleTip.js?v=1.1.0" ></script>
+  
+  
+    
+    
+    <section class="post page archives">
+      <h3 class="archive-year-wrap">
+        <a href="/archives/2023" class="archive-year">
+          2023
+        </a>
+      </h3>
+      <div class="archives">
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/02/05/快速地改善代码质量的20条编程规范/">
+    <div>
+      <span class="date">
+        02-05
+      </span>
+      <span class="slash">/</span>
+      快速地改善代码质量的20条编程规范
+    </div>
 
-<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/02/04/大型重构/">
+    <div>
+      <span class="date">
+        02-04
+      </span>
+      <span class="slash">/</span>
+      重构列表-大型重构
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/02/03/处理概括关系/">
+    <div>
+      <span class="date">
+        02-03
+      </span>
+      <span class="slash">/</span>
+      重构列表-处理概括关系(继承关系)
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/02/01/简化函数调用/">
+    <div>
+      <span class="date">
+        02-01
+      </span>
+      <span class="slash">/</span>
+      重构列表-简化函数调用
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/01/31/简化条件表达式/">
+    <div>
+      <span class="date">
+        01-31
+      </span>
+      <span class="slash">/</span>
+      重构列表-简化条件表达式
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/01/25/重新组织数据/">
+    <div>
+      <span class="date">
+        01-25
+      </span>
+      <span class="slash">/</span>
+      重构列表-重新组织数据
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/01/23/在对象之间搬移特性/">
+    <div>
+      <span class="date">
+        01-23
+      </span>
+      <span class="slash">/</span>
+      重构列表-在对象之间搬移特性
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+  
+  
+  <div class="archive" >
+  <a class="post-go" href="/2023/01/20/重新组织函数/">
+    <div>
+      <span class="date">
+        01-20
+      </span>
+      <span class="slash">/</span>
+      重构列表-重新组织函数
+    </div>
+
+    <!--<div class="excerpt">-->
+      <!---->
+    <!--</div>-->
+  </a>
+
+</div>
+
+
+  </div></section>
+
+    </div>
+
+    
+
+  </div>
+  
+<!-- Highlight.js -->
+<link rel="stylesheet"
+      href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js">
+</script>
 <script>
     hljs.initHighlightingOnLoad();
 </script>
 
-<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
-
-
-
-<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
-
-<script src="/js/iconfont.js?v=1.1.0" ></script>
-
-<meta name="generator" content="Hexo 5.4.2"></head>
-<div style="display: none">
-  <input class="theme_disqus_on" value="false">
-  <input class="theme_preload_comment" value="">
-  <input class="theme_blog_path" value="">
-  <input id="theme_shortcut" value="true" />
-  <input id="theme_highlight_on" value="true" />
-  <input id="theme_code_copy" value="true" />
-</div>
-
-
-
-<body>
-<aside class="nav mobile">
-    <div class="nav-left">
-        <a href="/"
-   class="avatar_target">
-    <img class="avatar"
-         src="/img/a.jpeg"/>
-</a>
-<div class="author">
-    <span>樵子</span>
-</div>
-
-<div class="icon">
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-</div>
-
-
-
-
-<ul>
-    <li>
-        <div class="all active" data-rel="全部文章">全部文章
-            
-                <small>(9)</small>
-            
-        </div>
-    </li>
-    
-        
-            
-                <li>
-                    <div data-rel="操作系统">
-                        <i class="fold iconfont icon-right"></i>
-                        
-                        操作系统
-                        <small>(1)</small>
-                        
-                    </div>
-                    
-                        <ul class="sub hide">
-                            
-                                <li>
-                                    <div data-rel="操作系统<--->同步">
-                                        
-                                        同步
-                                        
-                                            <small>(1
-                                                )</small>
-                                        
-                                    </div>
-                                    
-                                </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-        
-    
-        
-            
-        
-    
-        
-            
-                <li>
-                    <div data-rel="重构">
-                        
-                        重构
-                        <small>(8)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-</ul>
-<div class="left-bottom">
-    <div class="menus">
-        
-            
-            
-            
-    </div>
-    <div>
-        
-        
-    </div>
-</div>
-<input type="hidden" id="yelog_site_posts_number" value="9">
-
-<div style="display: none">
-    <span id="busuanzi_value_site_uv"></span>
-    <span id="busuanzi_value_site_pv"></span>
-</div>
+<footer class="footer text-center">
+    <div id="bottom-inner">
 
     </div>
-    <div class="nav-right">
-        <div class="friends-area">
-    <div class="friends-title">
-        友情链接
-        <i class="iconfont icon-left"></i>
-    </div>
-    <div class="friends-content">
-        <ul>
-            
-            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
-            
-        </ul>
-    </div>
-</div>
-        <div class="title-list">
-    <div class="right-top">
-        <div id="default-panel">
-            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
-            <div class="right-title">全部文章</div>
-            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
-        </div>
-        <div id="search-panel">
-            <i class="iconfont icon-left" data-title="返回"></i>
-            <input id="local-search-input" autocomplete="off"/>
-            <label class="border-line" for="input"></label>
-            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
-            <i class="iconfont icon-tag" data-title="标签"></i>
-        </div>
-        <div id="outline-panel" style="display: none">
-            <div class="right-title">大纲</div>
-            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
-        </div>
-    </div>
+</footer>
 
-    <div class="tags-list">
-    <input id="tag-search" />
-    <div class="tag-wrapper">
-        
-            <li class="article-tag-list-item">
-                <i class="iconfont icon-tag"></i><a>重构</a>
-            </li>
-        
-    </div>
+  
 
-</div>
+<script>
+  (function(window, document, undefined) {
 
-    
-    <div id="local-search-result">
+    var timer = null;
 
-    </div>
-    
-    <nav id="title-list-nav">
-        
-        
-        <a id="top" class="全部文章 操作系统 同步 "
-           href="/2022/11/24/%E5%90%8C%E6%AD%A5-%E8%87%AA%E6%97%8B%E9%94%81/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title="同步-自旋锁">同步-自旋锁</span>
-            <span class="post-date" title="2022-11-24 14:38:32">2022/11/24</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/02/05/%E5%BF%AB%E9%80%9F%E5%9C%B0%E6%94%B9%E5%96%84%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F%E7%9A%8420%E6%9D%A1%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="快速地改善代码质量的20条编程规范">快速地改善代码质量的20条编程规范</span>
-            <span class="post-date" title="2023-02-05 10:12:40">2023/02/05</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/02/04/%E5%A4%A7%E5%9E%8B%E9%87%8D%E6%9E%84/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="重构列表-大型重构">重构列表-大型重构</span>
-            <span class="post-date" title="2023-02-04 10:17:16">2023/02/04</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/02/03/%E5%A4%84%E7%90%86%E6%A6%82%E6%8B%AC%E5%85%B3%E7%B3%BB/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="重构列表-处理概括关系(继承关系)">重构列表-处理概括关系(继承关系)</span>
-            <span class="post-date" title="2023-02-03 09:35:55">2023/02/03</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/02/01/%E7%AE%80%E5%8C%96%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="重构列表-简化函数调用">重构列表-简化函数调用</span>
-            <span class="post-date" title="2023-02-01 10:21:16">2023/02/01</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/01/31/%E7%AE%80%E5%8C%96%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="重构列表-简化条件表达式">重构列表-简化条件表达式</span>
-            <span class="post-date" title="2023-01-31 09:29:00">2023/01/31</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/01/25/%E9%87%8D%E6%96%B0%E7%BB%84%E7%BB%87%E6%95%B0%E6%8D%AE/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="重构列表-重新组织数据">重构列表-重新组织数据</span>
-            <span class="post-date" title="2023-01-25 09:51:04">2023/01/25</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/01/23/%E5%9C%A8%E5%AF%B9%E8%B1%A1%E4%B9%8B%E9%97%B4%E6%90%AC%E7%A7%BB%E7%89%B9%E6%80%A7/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="重构列表-在对象之间搬移特性">重构列表-在对象之间搬移特性</span>
-            <span class="post-date" title="2023-01-23 09:14:00">2023/01/23</span>
-        </a>
-        
-        
-        <a  class="全部文章 重构 "
-           href="/2023/01/20/%E9%87%8D%E6%96%B0%E7%BB%84%E7%BB%87%E5%87%BD%E6%95%B0/"
-           data-tag="重构"
-           data-author="" >
-            <span class="post-title" title="重构列表-重新组织函数">重构列表-重新组织函数</span>
-            <span class="post-date" title="2023-01-20 09:18:46">2023/01/20</span>
-        </a>
-        
-        <div id="no-item-tips">
-
-        </div>
-    </nav>
-    <div id="outline-list">
-    </div>
-</div>
-
-    </div>
-    <div class="hide-list">
-        <div class="semicircle" data-title="切换全屏 快捷键 s">
-            <div class="brackets first"><</div>
-            <div class="brackets">&gt;</div>
-        </div>
-    </div>
-</aside>
-<div id="post" class="index">
-    <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
-    
-        
-    
-<style>
-    .left-col .switch-btn,
-    .left-col .switch-area {
-        display: none;
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
     }
-    .toc-level-3 i,
-    .toc-level-3 ol {
-        display: none !important;
-    }
-</style>
-</div>
-            
-        </article>
-        
-        
-    <div id="comments"></div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 
-<script type="text/javascript">
-    $.getScript('/js/gitalk.js', function () {
-        var gitalk = new Gitalk({
-            clientID: 'fdd0889e2f2f68ebfc05',
-            clientSecret: '6c50548d8598f0580e20c51e514d06ced28c811f',
-            repo: 'extramoney.github.io',
-            owner: 'extramoney',
-            admin: ['extramoney'],
-            id: decodeURI(location.pathname),
-            distractionFreeMode: 'true',
-            language: 'zh-CN',
-            perPage: parseInt('10',10)
-        })
-        gitalk.render('comments')
-    })
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
 </script>
 
+  
 
-    </div>
-    <div class="copyright">
-        <p class="footer-entry">
-    ©2022-2023 樵子
-</p>
-<!-- <p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
--->
-    </div>
-</div>
-<div class="full-toc">
-    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
-<a class="" id="rocket" ></a>
 
-</div>
+
+  
 
 </body>
-<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
-
-<script src="/js/script.js?v=1.1.0" ></script>
-<script>
-    var img_resize = 'default';
-    function initArticle() {
-        /*渲染对应的表格样式*/
-        
-            $("#post .pjax table").addClass("green_title");
-        
-
-        /*渲染打赏样式*/
-        
-
-        /*高亮代码块行号*/
-        
-
-        /*访问数量*/
-        
-        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
-        
-
-        /*代码高亮，行号对齐*/
-        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
-
-        
-        
-    }
-
-    /*打赏页面隐藏与展示*/
-    
-
-</script>
-
-<!--加入行号的高亮代码块样式-->
-
-<!--自定义样式设置-->
-<style>
-    
-    
-    .nav {
-        width: 572px;
-    }
-    .nav.fullscreen {
-        margin-left: -572px;
-    }
-    .nav-left {
-        width: 150px;
-    }
-    
-    
-    @media screen and (max-width: 1468px) {
-        .nav {
-            width: 512px;
-        }
-        .nav.fullscreen {
-            margin-left: -512px;
-        }
-        .nav-left {
-            width: 120px;
-        }
-    }
-    
-    
-    @media screen and (max-width: 1024px) {
-        .nav {
-            width: 512px;
-            margin-left: -512px
-        }
-        .nav.fullscreen {
-            margin-left: 0;
-        }
-    }
-    
-    @media screen and (max-width: 426px) {
-        .nav {
-            width: 100%;
-        }
-        .nav-left {
-            width: 100%;
-        }
-    }
-    
-    
-    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
-        color: #383636;
-    }
-    
-    
-    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
-        color: #5e5e5f;
-    }
-    
-    
-    .nav-right nav a.hover, #local-search-result a.hover{
-        background-color: #e2e0e0;
-    }
-    
-    
-
-    /*列表样式*/
-    
-
-    /* 背景图样式 */
-    
-    
-
-
-    /*引用块样式*/
-    
-
-    /*文章列表背景图*/
-    
-
-    
-</style>
-
-
-
-
-
-
-
 </html>
